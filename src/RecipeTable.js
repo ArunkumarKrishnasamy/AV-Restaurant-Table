@@ -1,18 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import RecipetableBody from "./RecipetableBody";
 
 function RecipeTable() {
-  let data = [
-    { id: "1", fname: "Mark", lname: "Mark" },
-    { id: "2", fname: "otto", lname: "otto" },
-  ];
-  const [newRecipe, setnewRecipe] = useState(data);
+  const [recipeData, setRecipeData] = useState([]);
+  const FetchData = async () => {
+    try {
+      let Data = await axios.get("http://localhost:5000/recipes");
+      //   const jsonData = Data.json();
+      setRecipeData(Data.data);
+      // console.log(Data.data);
+      setAddrecipe(true);
+    } catch (error) {
+      console.log(error);
+      alert("Error occurred");
+    }
+  };
+
+  useEffect(() => {
+    FetchData();
+  }, []);
+  const [newRecipe, setnewRecipe] = useState(recipeData);
   const [addrecipe, setAddrecipe] = useState(false);
   function CreateRow() {
     const rows = {
       id: newRecipe.length + 1,
-      fname: "",
-      lname: "",
+      first_name: "",
+      last_name: "",
     };
+    // FetchData();
     setnewRecipe([...newRecipe, rows]);
     setAddrecipe(false);
   }
@@ -20,7 +36,7 @@ function RecipeTable() {
     const { name, value } = e.target;
     const rows = [...newRecipe];
     rows[index][name] = value;
-    console.log(rows);
+
     setnewRecipe(rows);
     setAddrecipe(true);
   }
@@ -43,15 +59,15 @@ function RecipeTable() {
           </th>
         </tr>
       </thead>
-      <tbody>
+      {/* <tbody>
         {newRecipe.map((row, index) => {
-          const { fname, lname } = row;
+          const { first_name, last_name } = row;
           return addrecipe ? (
             <tr key={index}>
               <th scope="row">{row.id}</th>
 
-              <td>{row.fname}</td>
-              <td>{row.lname}</td>
+              <td>{row.first_name}</td>
+              <td>{row.last_name}</td>
               <td>
                 {" "}
                 <button className="btn btn-warning">Edit</button>
@@ -63,18 +79,18 @@ function RecipeTable() {
               <td>
                 <input
                   type="text"
-                  value={fname}
+                  value={first_name}
                   onChange={(e) => onChange(index, e)}
-                  name="fname"
+                  name="first_name"
                   className="form-control"
                 />
               </td>
               <td>
                 <input
                   type="text"
-                  value={lname}
+                  value={last_name}
                   onChange={(e) => onChange(index, e)}
-                  name="lname"
+                  name="last_name"
                   className="form-control"
                 />
               </td>
@@ -95,7 +111,8 @@ function RecipeTable() {
             + Add
           </th>
         </tr>
-      </tbody>
+      </tbody> */}
+      <RecipetableBody />
     </table>
   );
 }

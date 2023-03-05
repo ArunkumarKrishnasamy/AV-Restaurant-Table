@@ -16,7 +16,7 @@ function Topbar() {
     <div className="title">
       <div className="Header text-center">
         <h1 className="text-success"> Restaurant Management</h1>
-        <hr class="border border-primary border-3 opacity-75"></hr>
+        <hr className="border border-primary border-3 opacity-75"></hr>
       </div>
       <Link to={"/"}>
         <button
@@ -77,7 +77,7 @@ function Topbar() {
 
               <li className="dropdown-item">Something else here</li>
               <li>
-                <hr class="dropdown-divider" />
+                <hr className="dropdown-divider" />
               </li>
             </ul>
           </div>
